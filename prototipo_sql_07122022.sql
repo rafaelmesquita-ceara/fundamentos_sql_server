@@ -10,7 +10,7 @@ CREATE TABLE[Endereco](
     [Cep] NVARCHAR(8),
     [Logradouro] NVARCHAR(80),
     [Numero] SMALLINT,
-    [Complemento] NVARCHAR(10),
+    [Complemento] NVARCHAR(15),
     [Bairro] NVARCHAR(20),
     [Municipio] NVARCHAR(20),
     [Estado] NVARCHAR(2),
@@ -49,11 +49,10 @@ CREATE TABLE[Usuario](
         REFERENCES [Endereco]([Id])
 )
 GO
-
 CREATE TABLE[Vendedor](
     [Id] UNIQUEIDENTIFIER NOT NULL UNIQUE,
     [Nome] NVARCHAR(80) NOT NULL,
-    [TaxaComissao] DECIMAL NOT NULL,
+    [TaxaComissao] DECIMAL(10,2) NOT NULL,
     [EnderecoId] UNIQUEIDENTIFIER,
     [Id_Usuario_Incusao] UNIQUEIDENTIFIER NOT NULL,
     [Data_Inclusao] DATETIME NULL DEFAULT GETUTCDATE(),
@@ -98,8 +97,8 @@ GO
 CREATE TABLE [Lote](
     [Id] UNIQUEIDENTIFIER NOT NULL UNIQUE,
     [Quantidade] INT NOT NULL,
-    [ValorUnitarioCompra] DECIMAL NOT NULL,
-    [ValorUnitarioVenda] DECIMAL NOT NULL,
+    [ValorUnitarioCompra] DECIMAL(10,2) NOT NULL,
+    [ValorUnitarioVenda] DECIMAL(10,2) NOT NULL,
     [Id_Produto] UNIQUEIDENTIFIER NOT NULL,
     [Data_Inclusao] DATETIME NULL DEFAULT GETUTCDATE(),
     [Id_Usuario_Incusao] UNIQUEIDENTIFIER NOT NULL,
@@ -130,17 +129,18 @@ GO
 
 CREATE TABLE [Produto_Venda](
     [VendaId] UNIQUEIDENTIFIER NOT NULL,
-    [ProdutoId] UNIQUEIDENTIFIER NOT NULL,
+    [LoteId] UNIQUEIDENTIFIER NOT NULL,
     [Quantidade] INT NOT NULL,
 
-    CONSTRAINT [PK_Produto_Venda] PRIMARY KEY ([ProdutoId],[VendaId])
+    CONSTRAINT [PK_Produto_Venda] PRIMARY KEY ([LoteId],[VendaId])
 )
+GO
 
 CREATE TABLE [Venda](
     [Id] UNIQUEIDENTIFIER NOT NULL UNIQUE,
     [ClienteId] UNIQUEIDENTIFIER NOT NULL,
     [VendedorId] UNIQUEIDENTIFIER NOT NULL,
-    [ValorTotal] DECIMAL NOT NULL,
+    [ValorTotal] DECIMAL(10,2) NOT NULL,
     [Data_Inclusao] DATETIME NULL DEFAULT GETUTCDATE(),
     [Situacao] BIT NOT NULL DEFAULT(0), -- (0) Pendente, (1) Concluída, (2) Cancelada
 
@@ -155,7 +155,7 @@ GO
 CREATE TABLE [Pagamento](
     [Id] UNIQUEIDENTIFIER NOT NULL UNIQUE,
     [VendaId] UNIQUEIDENTIFIER NOT NULL,
-    [Valor] DECIMAL NOT NULL,
+    [Valor] DECIMAL(10,2) NOT NULL,
     [Tipo] BIT NOT NULL DEFAULT(0), -- (0) Dinheiro, (1) Cartão de Crédito, (2) Cartão de Débito, (3) Vale
     [Data_Inclusao] DATETIME NULL DEFAULT GETUTCDATE(),
 

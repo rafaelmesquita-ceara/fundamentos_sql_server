@@ -14,7 +14,7 @@ Connection string
 
 ```Server=localhost,1433;Database=Curso;User ID=sa;Password=Ericsouza.123```
 
-
+# 07/12/2022
 ## Comandos básicos para os bancos de dados e tabelas
 
 ### Criar novo banco de dados
@@ -121,4 +121,69 @@ CREATE TABLE[Categoria](
 GO
 
 SELECT NEWID()
+```
+
+## Comandos de Queries
+
+### Insert
+```SQL
+INSERT INTO [Endereco]([Id], [Cep], [Logradouro], [Numero], [Complemento], [Bairro], [Municipio], [Estado])
+VALUES (NEWID(), '62380000', 'Avenida Nossa Senhora dos Prazeres', 450, 'Casa', 'Centro', 'Guaraciaba do Norte', 'CE')
+GO
+```
+
+# 08/12/2022
+
+## Comandos de Queries
+
+### Select
+```SQL
+SELECT DISTINCT TOP 100
+    [Nome], [Data_Inclusao]
+FROM [Produto]
+```
+
+### Select where
+```SQL
+SELECT DISTINCT TOP 100
+    [Nome], [Data_Inclusao], [CategoriaId]
+FROM [Produto]
+WHERE [CategoriaId] = 'c8e9df2c-1ea0-410c-9cd3-81ca80c3297f'
+AND [Nome] != 'Bolsa Louis Vuitton ALMA BB'
+```
+
+### Order by
+```SQL
+SELECT DISTINCT TOP 100
+    [Nome], [Data_Inclusao], [CategoriaId]
+FROM [Produto]
+WHERE [CategoriaId] = 'c8e9df2c-1ea0-410c-9cd3-81ca80c3297f'
+AND [Nome] != 'Bolsa Louis Vuitton ALMA BB'
+ORDER BY [Nome] ASC
+```
+
+### Update
+```SQL
+BEGIN TRANSACTION -- Iniciar transação para garantir resultado seguro
+    UPDATE [Lote] 
+    SET [Quantidade] = 60
+    WHERE [Id] = '39d89a67-ca71-4156-86da-08fb2ed74687'
+COMMIT -- Ou ROLLBACK
+```
+
+### Delete
+```SQL
+BEGIN TRANSACTION -- Iniciar transação para garantir resultado seguro
+    DELETE FROM [Lote] 
+    WHERE [Id] = '39d89a67-ca71-4156-86da-08fb2ed74687'
+COMMIT -- Ou ROLLBACK
+```
+
+### Like e Alias
+```SQL
+SELECT DISTINCT TOP 100
+    [Nome] AS [Produto], [Data_Inclusao], [CategoriaId]
+FROM [Produto]
+WHERE [Nome] LIKE 'Bolsa Louis Vuitton%'
+ORDER BY [Nome] ASC
 ```

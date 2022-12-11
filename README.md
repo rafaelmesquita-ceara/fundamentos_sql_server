@@ -187,3 +187,13 @@ FROM [Produto]
 WHERE [Nome] LIKE 'Bolsa Louis Vuitton%'
 ORDER BY [Nome] ASC
 ```
+
+### INNER JOIN
+```SQL
+SELECT DISTINCT TOP 100
+    [p].[Nome] AS [Produto], [p].[Data_Inclusao], [c].[Nome]
+FROM [Produto] AS [p]
+INNER JOIN [Categoria] AS [c] ON [c].[Id] = [p].[CategoriaId]
+WHERE [p].[Nome] LIKE 'Bolsa Louis Vuitton%'
+ORDER BY [p].[Nome] ASC
+```
